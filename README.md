@@ -1,5 +1,5 @@
 # README: BERKSTATS
-Stats and R Crashcourse Materials and Code examples.
+Stats and R crashcourse: materials and code examples.
 
 ## Syllabus
 
