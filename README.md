@@ -8,9 +8,7 @@ Stats and R crashcourse: materials and code examples.
 **Statistics and R Crash Course**
 
 **February 2017**
-
-  ------------------------------ -------------------------
-  **Rey Junco**                  **Ulrich Matter**
+**Rey Junco & Ulrich Matter**
                                  
 
 **Course Description/Rationale**
