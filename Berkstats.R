@@ -1,0 +1,71 @@
+#' ---
+#' title: "Berkstats Code Snippets"
+#' author: "Ulrich Matter"
+#' date: "February 2017"
+#' output: html_document
+#' ---
+#' 
+#' 
+#' Berkstats: Code Snippets
+#' ========================================================
+#' 
+#' 
+#' Hello world
+#' -------------------------------
+#' Your first line of R code :)!
+#' 
+## ------------------------------------------------------------------------
+print("Hello world!")
+
+#' 
+#' 
+#' R as a Calculator
+#' -------------------------------
+## ------------------------------------------------------------------------
+2 + 2 
+4 * 5
+20 / 5
+(3/5) / (4/5)
+
+#' 
+#' Variables and Vectors
+#' -------------------------------
+## ------------------------------------------------------------------------
+a <- c(1,22,333)
+names(a) <- c("Andy", "Betty", "Claire")
+print(a)
+print(a[3])
+print(a["Betty"])
+
+# calculate with variables
+b <- 5
+c <- 8
+b + c
+
+# simple calculations with vectors
+a + b
+a * c
+
+
+#' 
+#' Random Draws and Distributions
+#' -------------------------------
+#' 
+## ------------------------------------------------------------------------
+normal_distr <- rnorm(1000)
+hist(normal_distr)
+
+#' 
+#' 
+#' Compute the Mean
+#' -------------------------------
+## ------------------------------------------------------------------------
+a <- c(1,22,333)
+sum(a) / length(a)
+
+# or simpler, with an R function
+mean(a)
+
+
+#' 
+#' 

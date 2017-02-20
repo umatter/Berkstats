@@ -1,5 +1,6 @@
 ---
-title: "Hour 3: R in Action"
+title: "Exercises: R in Action"
+author: "Ulrich Matter"
 output: html_document
 ---
 
@@ -20,7 +21,7 @@ library(foreign)
 
 Read the data into R as follows:
 ```{r data, warning=FALSE}
-sample <- read.spss("sample_data.sav", to.data.frame = TRUE)
+sample <- read.spss("data/sample_data.sav", to.data.frame = TRUE)
 ```
 
 Have a looka at the data set:
