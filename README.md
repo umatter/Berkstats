@@ -46,10 +46,7 @@ to:
 **Texts**
 
 Bennett, J. O., Briggs, W. L., & Triola, M. F. (2014). Statistical
-reasoning for everyday life (4th
-
-> edition). Upper Saddle River, NJ: Pearson Education. **This text is
-> available online for free on MyStatLab for a two-week period. **
+reasoning for everyday life (4th edition). Upper Saddle River, NJ: Pearson Education. **This text is available online for free on MyStatLab for a two-week period. **
 
 **Course Supplement**
 
@@ -129,8 +126,6 @@ meeting.
                                                               
                Statistical Significance                       **Chapter 6 Quiz**
                                                               
-               Effect Sizes                                   
-                                                              
                Confidence Intervals                           
 
                                                               
@@ -138,7 +133,9 @@ meeting.
   2/24/17      Correlation                                    Bennett et al.: Chapters 7-10
                                                               
                t-tests                                        **Homework 10-12**
-                                                              
+               
+               Effect Sizes                                                 
+              
                ANOVA                                          **Chapter 7-10 Quizzes**
                                                               
                Different types of ANOVA                       
