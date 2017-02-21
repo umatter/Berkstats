@@ -4,9 +4,6 @@ author: "Ulrich Matter"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 ## Data: Student's GPA
 
@@ -15,13 +12,15 @@ The data file is in sav-format (SPSS). We can read data from other stats package
 Thus, first, we load and install this R-package:
 
 ```{r foreign, message=FALSE, results=FALSE}
-install.packages("foreign", repos = 'http://cran.us.r-project.org')
+# install the package called "foreign" with the following command (if not yet installed)
+# install.packages("foreign", repos = 'http://cran.us.r-project.org')
 library(foreign)
 ```
 
 Read the data into R as follows:
 ```{r data, warning=FALSE}
-sample <- read.spss("data/sample_data.sav", to.data.frame = TRUE)
+print(getwd())
+sample <- read.spss("../data/sample_data.sav", to.data.frame = TRUE)
 ```
 
 Have a looka at the data set:

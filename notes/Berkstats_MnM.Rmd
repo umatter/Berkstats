@@ -1,5 +1,5 @@
 ---
-title: "M & M Histogram"
+title: "M & M Histogram and Exercises"
 author: "Ulrich Matter"
 date: "2/19/2017"
 output: html_document
@@ -39,13 +39,13 @@ hist(mnm_data$Total, main = "M&M Bag Histogram", xlab = "Count")
 ```
 
 ## Example II: Plot a histogram for each color
-Note: here we use **ggplot2**, a powerful R-extension to visualize data.
+Note: here we use **ggplot2**, a powerful R-package to visualize data.
 ```{r ex2}
 # II ) FREQUENCY DISTRIBUTION OF M & Ms PER COLOR ---------------------------------------------------------------
 
 # get data for each color in 'long' format
-mnm_data <- as.data.table(mnm_data[, -"Total"])
-mnm_long <- melt(mnm_data, id.vars = "Name")
+mnm_long <- as.data.table(mnm_data[,-ncol(mnm_data)])
+mnm_long <- melt(mnm_long, id.vars = "Name")
 names(mnm_long) <- c("Name", "Color", "Count")
 
 # Plot counts per color
@@ -53,5 +53,54 @@ ggplot(data = mnm_long, aes(x = Count, group=1)) +
     geom_histogram(fill = "steelblue")+
     facet_wrap(~Color) +
     theme_light()
+```
+
+
+
+## Exercises 
+
+**1. What is the average number of M&Ms per bag? For each color?**
+
+```{r, echo=TRUE}
+# compute the average number (i.e., the mean) of M&Ms per bag in our sample
+mean(mnm_data$Total)
+
+# compute the average number for each color
+# a) select only those columns containing data on the count of M&Ms of a specific color
+# (i.e, columns 2 to 7)
+mnm_colors <- mnm_data[, 2:7]
+# b) use the already implemented R-function 'colMeans' to compute the mean for each column (color)
+colMeans(mnm_colors)
+# or alternatively use sapply (see ?sapply for what this function does!)
+sapply(mnm_colors, mean)
+
+```
+
+**2. What is the variance and standard deviation?**
+
+```{r, echo=TRUE}
+
+# for the total number of M&Ms
+var(mnm_data$Total)
+sd(mnm_data$Total)
+
+# per color
+sapply(mnm_colors, var)
+sapply(mnm_colors, sd)
+
+```
+
+**3. What is the range, median, and mode?**
+
+```{r}
+# for the total number of M&Ms
+range(mnm_data$Total) # the range
+median(mnm_data$Total) # the median
+mymode(mnm_data$Total) # the mode (NOTE: we have implemented this funciton ourselves, see above!)
+
+# for each color
+sapply(mnm_colors, range)
+sapply(mnm_colors, median)
+sapply(mnm_colors, mymode)
 ```
 
