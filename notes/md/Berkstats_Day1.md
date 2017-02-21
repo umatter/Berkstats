@@ -184,7 +184,7 @@ the code explaing what each line does):
     # now compute the skewness
     skewness(sample)
 
-    ## [1] 0.1199944
+    ## [1] 0.05422941
 
     # Now we intentionally change our sample to be strongly positively skewed
     # We do that by adding some outliers (observations with very high values) to the sample 
@@ -197,7 +197,7 @@ the code explaing what each line does):
 
     skewness(sample)
 
-    ## [1] 0.4446122
+    ## [1] 0.4520598
 
     #
 
@@ -221,7 +221,7 @@ the code explaing what each line does):
 
     kurtosis(sample)
 
-    ## [1] 2.919504
+    ## [1] 2.837464
 
     # now lets remove observations from the extremes in this distribution
     # we thus intentionally alter the distribution to have less mass in its tails
@@ -235,7 +235,7 @@ the code explaing what each line does):
     # re-calculate the kurtosis
     kurtosis(sample)
 
-    ## [1] 1.87708
+    ## [1] 1.81693
 
     # as expected, the kurtosis has now a lower value
 
@@ -247,21 +247,21 @@ Implement the formulas for skewness and kurtosis in R
     # own implementation
     sum((sample-mean(sample))^3) / ((length(sample)-1) * sd(sample)^3)
 
-    ## [1] 0.07893096
+    ## [1] 0.1000743
 
     # implementation in moments package
     skewness(sample)
 
-    ## [1] 0.07902081
+    ## [1] 0.1001835
 
 **Kurtosis**
 
     # own implementation
     sum((sample-mean(sample))^4) / ((length(sample)-1) * sd(sample)^4)
 
-    ## [1] 1.872814
+    ## [1] 1.812971
 
     # implementation in moments package
     kurtosis(sample)
 
-    ## [1] 1.87708
+    ## [1] 1.81693

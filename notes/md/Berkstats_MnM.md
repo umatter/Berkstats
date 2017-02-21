@@ -38,11 +38,9 @@ Note: here we use **ggplot2**, a powerful R-package to visualize data.
 
     # Plot counts per color
     ggplot(data = mnm_long, aes(x = Count, group=1)) +
-        geom_histogram(fill = "steelblue")+
+        geom_histogram(fill = "steelblue", bins = 5)+
         facet_wrap(~Color) +
         theme_light()
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](/Users/ueli/Dropbox/Teaching/Berkstats/Berkstats/notes/md/Berkstats_MnM_files/figure-markdown_strict/ex2-1.png)
 

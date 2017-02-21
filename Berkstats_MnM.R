@@ -1,5 +1,4 @@
 
-
 ## ------------------------------------------------------------------------
 # Install required packages (if not yet installed)
 # install.packages(c("gsheet", "ggplot2", "data.table"))
@@ -30,7 +29,7 @@ names(mnm_long) <- c("Name", "Color", "Count")
 
 # Plot counts per color
 ggplot(data = mnm_long, aes(x = Count, group=1)) +
-    geom_histogram(fill = "steelblue")+
+    geom_histogram(fill = "steelblue", bins = 5)+
     facet_wrap(~Color) +
     theme_light()
 
