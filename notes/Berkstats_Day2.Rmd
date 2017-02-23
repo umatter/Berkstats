@@ -1,5 +1,5 @@
 ---
-title: "Berkstats_Day2.Rmd"
+title: "Berkstats Day 2"
 author: "Ulrich Matter"
 date: "22 February 2017"
 output: html_document
@@ -177,7 +177,7 @@ t
 2*pnorm(-abs(t))
 
 
-# II) Apply the R-function t.test
+# II) Apply the R-function t.test to do the same! 
 t.test(sample, mu = 10)
 
 ```
@@ -185,11 +185,93 @@ t.test(sample, mu = 10)
 
 
 ## Exercises
-1. Got to <http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html>.
-2. Pick a data set that interests you. 
-3. Pose an empirical question you want to answer with that data set.
-4. Formulate a null-hypothesis and test it with the techniques learned today.
+**1. Got to <http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html>.**
+**2. Pick a data set that interests you, load it with the data() function.**
+```{r}
+# yes, I choose the swiss data set...
+data(swiss)
+# have a look at what we are dealing with here
+str(swiss)
+# have a look at the first few lines
+head(swiss)
+# get more info about the variables in that data set
+?swiss
+```
 
+**3. Pose an empirical question you want to answer with that data set.**
+In the case of the `swiss` data set, for example, is the average fertility in the entire population 85?
+
+**4. Formulate a null-hypothesis and test it with the techniques learned today.**
+H0: mu = 85. This requires a t-statistic of the Fertility mean. We can compute this statistic either with the formulas and R-functions discussed on Day 2. Or we directly compute it with t.test() provided by R. The following code demonstrates both approaches step by step.
+
+### I. Own implementation (with a detailed explanation)
+```{r}
+
+# a) compute sample mean and sample standard deviation, record how many observations we are having
+# in our sample, define the population mean (that you want to test for)
+sample_mean <- mean(swiss$Fertility)
+sample_sd <- sd(swiss$Fertility)
+n <- length(swiss$Fertility) # alternatively use nrow(swiss)
+mu <- 85
+
+# b) compute the (estimate of the) sample mean standard error
+se <- sample_sd / sqrt(n)
+
+# c) compute the t-statistic
+t <- (sample_mean - mu) / se
+t
+
+# d) check what p-value is associated with that t-statistic 
+# i.e., check what fraction of the standard normal distribution has an at least as extreme value as
+# the t value we computed.
+pval <- 2*pnorm(-abs(t))
+pval
+```
+
+Note how we get from the t-value to the p-value here: `2*pnorm(-abs(t))`. This short line of code involves a lot. Let's have a look at specific aspects. Recall the standard normal distribution function which is implementd in `pnorm(x)`. This function returns the fraction of the mass under the standard normal distribution curve that is smaller than or equal to `x` (i.e., the probability of observing a value that is equal to or smaller than `x`). Lets have a closer look in R:
+
+```{r}
+# the probability of observing a value at least as small as -1 in a standard normal distribution 
+pnorm(-1)
+# or in percent
+pnorm(-1) * 100
+```
+
+Recall that we are interested in the probability of observing a value at least as *extreme* as `t`. Thus we need to consider the absolute value of `t`, `|t|`, and want to know at once what the probability of observing a value at least as small as `-t` *or* at least as big as `t` (therefore, the `abs(t)` which returns the absolute value). 
+
+```{r}
+# demonstration of concept of absolute value
+abs(-1)
+abs(1)
+
+# in our example of t
+abs(t)
+
+```
+
+Recall that `pnorm(x)` returns by default the probability of observing a value that is at least as small as `x` therefore the `-abs(t)`. Finally, we also know that the standard normal distribution is symmetric. Thus the fraction of mass under the curve between `-abs(t)` and -infinity (everything to the left of `-abs(t)` under the curve) is exactly the same as the one between `abs(t)` and infinity (everything to the left of `abs(t)` under the curve). Hence we can simply multiply the the value of `pnorm(-abs(t))` by two: `2*pnorm(-abs(t))` for simplicity's sake. Alternatively we could compute the probability for the 'lower tail' and the 'upper tail' separately and build the sum of the two. 
+
+```{r}
+# compute the lower tail probability
+lowerp <- pnorm(-abs(t))
+# compute the upper tail probability
+upperp <- pnorm(abs(t), lower.tail = FALSE)
+# build the two-tail p-value
+twotailp <- lowerp + upperp
+
+# proof that this is the same as above
+twotailp == 2*pnorm(-abs(t))
+
+```
+
+
+### II. Apply the R function for t-tests (i.e., the tl;dr version...)
+```{r}
+# t-test for H0: mu = 85
+t.test(swiss$Fertility, mu = 85)
+```
+
+Given this result, we can quite confidently reject H0 and conclude that the population mean of this fertility measure is very unlikely 85. 
 
 
 
