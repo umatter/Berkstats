@@ -84,7 +84,6 @@ se
 
 # write your own standard error (of the mean) function
 se <- function(x) {
-     
      s <- sd(x)
      n <- length(x)
      se <- s / sqrt(n)
@@ -145,7 +144,70 @@ t
 2*pnorm(-abs(t))
 
 
-# II) Apply the R-function t.test
+# II) Apply the R-function t.test to do the same! 
 t.test(sample, mu = 10)
 
+
+## ------------------------------------------------------------------------
+# yes, I choose the swiss data set...
+data(swiss)
+# have a look at what we are dealing with here
+str(swiss)
+# have a look at the first few lines
+head(swiss)
+# get more info about the variables in that data set
+?swiss
+
+## ------------------------------------------------------------------------
+
+# a) compute sample mean and sample standard deviation, record how many observations we are having
+# in our sample, define the population mean (that you want to test for)
+sample_mean <- mean(swiss$Fertility)
+sample_sd <- sd(swiss$Fertility)
+n <- length(swiss$Fertility) # alternatively use nrow(swiss)
+mu <- 85
+
+# b) compute the (estimate of the) sample mean standard error
+se <- sample_sd / sqrt(n)
+
+# c) compute the t-statistic
+t <- (sample_mean - mu) / se
+t
+
+# d) check what p-value is associated with that t-statistic 
+# i.e., check what fraction of the standard normal distribution has an at least as extreme value as
+# the t value we computed.
+pval <- 2*pnorm(-abs(t))
+pval
+
+## ------------------------------------------------------------------------
+# the probability of observing a value at least as small as -1 in a standard normal distribution 
+pnorm(-1)
+# or in percent
+pnorm(-1) * 100
+
+## ------------------------------------------------------------------------
+# demonstration of concept of absolute value
+abs(-1)
+abs(1)
+
+# in our example of t
+abs(t)
+
+
+## ------------------------------------------------------------------------
+# compute the lower tail probability
+lowerp <- pnorm(-abs(t))
+# compute the upper tail probability
+upperp <- pnorm(abs(t), lower.tail = FALSE)
+# build the two-tail p-value
+twotailp <- lowerp + upperp
+
+# proof that this is the same as above
+twotailp == 2*pnorm(-abs(t))
+
+
+## ------------------------------------------------------------------------
+# t-test for H0: mu = 85
+t.test(swiss$Fertility, mu = 85)
 
