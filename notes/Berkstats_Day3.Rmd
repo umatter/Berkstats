@@ -1,0 +1,150 @@
+---
+title: "Berkstats: Day 3 ~ R in Action"
+author: "Ulrich Matter"
+output: html_document
+---
+
+
+## Recap: Hypothesis Tests and T-Statistic 
+
+**What is the t-statistic and how do we compute it?**
+```{r}
+# load the dataset
+data(swiss)
+
+# a) compute sample mean and sample standard deviation, record how many observations we are having
+# in our sample, define the population mean (that you want to test for)
+sample_mean <- mean(swiss$Fertility)
+sample_sd <- sd(swiss$Fertility)
+n <- length(swiss$Fertility) # alternatively use nrow(swiss)
+mu <- 85
+
+# b) compute the (estimate of the) sample mean standard error
+se <- sample_sd / sqrt(n)
+
+# c) compute the t-statistic
+t <- (sample_mean - mu) / se
+t
+
+# d) check what p-value is associated with that t-statistic 
+# i.e., check what fraction of the standard normal distribution has an at least as extreme value as
+# the t value we computed.
+pval <- 2*pnorm(-abs(t))
+pval
+```
+
+**Use R's t-statistic function**
+Alternatively to the 'manual' approache above, we can use R's `t.test()` function to execute all these steps at once:
+```{r}
+# t-test for H0: mu = 85
+t.test(swiss$Fertility, mu = 85)
+```
+
+
+
+## Data for Today's Exercises: Student's GPA
+
+The data file is in sav-format (SPSS). We can read data from other stats packages into R with the **foreign** library. Thus, first, we install and load this R-package:
+
+```{r foreign, message=FALSE, results=FALSE}
+# install the package called "foreign" with the following command (if not yet installed)
+# install.packages("foreign", repos = 'http://cran.us.r-project.org')
+library(foreign)
+```
+
+Read the data into R as follows:
+```{r data, warning=FALSE}
+print(getwd())
+sample <- read.spss("../data/sample_data.sav", to.data.frame = TRUE)
+```
+
+Have a look at the data set:
+```{r view}
+names(sample)
+View(sample)
+```
+
+"Clean" the data
+```{r clean}
+sample <- sample[!is.na(sample$SSATScore),] # remove observations without SSATScore
+sample <- sample[!is.na(sample$HSGPA),] # remove observations without HSGPA
+sample <- sample[!is.na(sample$race),] # remove observations without race attribute
+sample <- sample[!is.na(sample$sex),] # remove observations without gender attribute
+```
+
+
+
+## Descriptives
+
+Average time studying and average college GPA
+
+```{r averages}
+mean(sample$ClassPrepTime)
+mean(sample$OverallGPA)
+```
+
+Percentages of female, African-American?
+```{r averages2}
+mean(sample$female) * 100
+mean(sample$africanamerican) * 100
+```
+
+
+## Correlations
+
+What is the relationship between SAT Score and College GPA?
+
+```{r satgpa}
+cor(x = sample$SSATScore, y = sample$OverallGPA)
+```
+
+What is the relationship between High School GPA and College GPA?
+```{r sathsgpa}
+cor(x = sample$HSGPA, y = sample$OverallGPA)
+```
+
+Which one predicts more of the variance in College GPA?
+
+
+## Hypothesis test
+
+Is there a difference in SAT scores between men and women?
+```{r satdiff}
+anova(lm(SSATScore~factor(sex), data=sample)) # anova
+summary(lm(SSATScore~factor(sex), data=sample)) # t-test of regression coefficient
+
+```
+
+Is there a difference in College GPA between men and women?
+```{r gpadiff}
+anova(lm(OverallGPA~factor(sex), data=sample)) # anova
+summary(lm(OverallGPA~factor(sex), data=sample)) # t-test of regression coefficient
+
+```
+
+
+Are there differences in College GPA among members of different racial groups?
+```{r gpadiff_race}
+anova(lm(OverallGPA~factor(race), data=sample)) # anova
+summary(lm(OverallGPA~factor(race), data=sample)) # t-test of regression coefficient
+
+```
+
+
+
+## Multiple regression
+
+Controlling for pre-existing ability, are there differences in College GPA among members of different racial groups?
+```{r reg1}
+anova(lm(OverallGPA~factor(race) + HSGPA, data=sample)) # anova
+summary(lm(OverallGPA~factor(race) + HSGPA, data=sample)) # t-test of regression coefficient
+
+```
+
+Does time spent on Facebook predict Overall College GPA when controlling for sex, race, and prior academic ability?
+```{r fb}
+anova(lm(OverallGPA~factor(race) + factor(sex) + HSGPA + facebookminutesselfreport, data=sample)) # anova
+summary(lm(OverallGPA~factor(race) + factor(sex) + HSGPA + facebookminutesselfreport, data=sample)) # t-test of regression coefficient
+
+```
+
